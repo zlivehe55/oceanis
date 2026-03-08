@@ -44,6 +44,16 @@ app.use(async (req, res, next) => {
 
   res.locals.currentPath = req.path;
   res.locals.siteName = process.env.SITE_NAME || 'Oceanis';
+
+  if (!req.path.startsWith('/admin')) {
+    try {
+      const SiteContent = require('./models/SiteContent');
+      res.locals.footer = await SiteContent.getPage('footer');
+    } catch (e) {
+      res.locals.footer = {};
+    }
+  }
+
   next();
 });
 

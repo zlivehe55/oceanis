@@ -278,7 +278,8 @@ router.get('/pages', async (req, res) => {
     const pages = [
       { slug: 'home', name: 'Home Page', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
       { slug: 'about', name: 'About Page', icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-      { slug: 'contact', name: 'Contact Page', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' }
+      { slug: 'contact', name: 'Contact Page', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+      { slug: 'footer', name: 'Footer', icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z' }
     ];
 
     for (const page of pages) {
@@ -295,7 +296,7 @@ router.get('/pages', async (req, res) => {
 router.get('/pages/:page', async (req, res) => {
   try {
     const pageName = req.params.page;
-    if (!['home', 'about', 'contact'].includes(pageName)) {
+    if (!['home', 'about', 'contact', 'footer'].includes(pageName)) {
       return res.redirect('/admin/pages');
     }
 
@@ -307,7 +308,7 @@ router.get('/pages/:page', async (req, res) => {
       sections[item.section].push(item);
     });
 
-    const pageLabels = { home: 'Home Page', about: 'About Page', contact: 'Contact Page' };
+    const pageLabels = { home: 'Home Page', about: 'About Page', contact: 'Contact Page', footer: 'Footer' };
 
     res.render('admin/page-edit', {
       title: `Edit ${pageLabels[pageName]} - Oceanis`,
@@ -325,7 +326,7 @@ router.get('/pages/:page', async (req, res) => {
 router.post('/pages/:page', async (req, res) => {
   try {
     const pageName = req.params.page;
-    if (!['home', 'about', 'contact'].includes(pageName)) {
+    if (!['home', 'about', 'contact', 'footer'].includes(pageName)) {
       return res.redirect('/admin/pages');
     }
 
