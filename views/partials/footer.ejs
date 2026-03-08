@@ -85,27 +85,43 @@
   <script>
     AOS.init({ duration: 800, once: true, offset: 50 });
 
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    const isHome = window.location.pathname === '/';
-    if (isHome) {
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 80) {
-          navbar.classList.remove('bg-transparent');
-          navbar.classList.add('bg-navy-900/95', 'backdrop-blur-md', 'shadow-lg');
-        } else {
-          navbar.classList.add('bg-transparent');
-          navbar.classList.remove('bg-navy-900/95', 'backdrop-blur-md', 'shadow-lg');
-        }
-      });
-    }
+    (function() {
+      const navbar = document.getElementById('navbar');
+      const isHome = navbar && navbar.dataset.home === 'true';
 
-    // Mobile menu
-    const toggle = document.getElementById('mobile-toggle');
-    const menu = document.getElementById('mobile-menu');
-    if (toggle && menu) {
-      toggle.addEventListener('click', () => menu.classList.toggle('hidden'));
-    }
+      if (isHome && navbar) {
+        function updateNav() {
+          if (window.scrollY > 80) {
+            navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+            navbar.style.backdropFilter = 'blur(12px)';
+            navbar.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.3)';
+          } else {
+            navbar.style.background = 'transparent';
+            navbar.style.backdropFilter = 'none';
+            navbar.style.boxShadow = 'none';
+          }
+        }
+        updateNav();
+        window.addEventListener('scroll', updateNav, { passive: true });
+      }
+
+      // Mobile menu toggle
+      const toggle = document.getElementById('mobile-toggle');
+      const menu = document.getElementById('mobile-menu');
+      const iconOpen = document.getElementById('menu-icon-open');
+      const iconClose = document.getElementById('menu-icon-close');
+
+      if (toggle && menu) {
+        toggle.addEventListener('click', function() {
+          const isOpen = !menu.classList.contains('hidden');
+          menu.classList.toggle('hidden');
+          if (iconOpen && iconClose) {
+            iconOpen.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+          }
+        });
+      }
+    })();
   </script>
 </body>
 </html>

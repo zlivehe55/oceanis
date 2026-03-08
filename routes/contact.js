@@ -2,7 +2,10 @@ const router = require('express').Router();
 const Contact = require('../models/Contact');
 
 router.get('/', (req, res) => {
-  res.render('contact', { title: 'Contact Us - Oceanis' });
+  res.render('contact', {
+    title: 'Contact Oceanis Hotel Douala | Reservations & Inquiries',
+    metaDesc: 'Contact Oceanis Hotel in Douala, Cameroon. Email oceaniscm@gmail.com or visit us in Bonanjo District. Available 24/7 for reservations and inquiries.'
+  });
 });
 
 router.post('/', async (req, res) => {

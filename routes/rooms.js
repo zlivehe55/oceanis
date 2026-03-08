@@ -25,7 +25,8 @@ router.get('/', async (req, res) => {
     const types = ['Standard', 'Deluxe', 'Suite', 'Presidential'];
 
     res.render('rooms', {
-      title: 'Our Rooms - Oceanis',
+      title: 'Rooms & Suites - Oceanis Hotel Douala | Book from 22,000 CFA',
+      metaDesc: 'Browse luxury rooms and suites at Oceanis Hotel in Douala, Cameroon. Standard, Deluxe, Suite & Presidential options. Book online with best rate guarantee.',
       rooms,
       types,
       currentType: type || 'all',
@@ -50,7 +51,12 @@ router.get('/:slug', async (req, res) => {
       type: room.type,
       available: true
     }).limit(3);
-    res.render('room-detail', { title: `${room.name} - Oceanis`, room, relatedRooms });
+    res.render('room-detail', {
+      title: `${room.name} - ${room.type} Room | Oceanis Hotel Douala`,
+      metaDesc: `Book the ${room.name} at Oceanis Hotel. ${room.shortDescription || room.description.substring(0, 150)} From ${room.price.toLocaleString()} CFA/night.`,
+      room,
+      relatedRooms
+    });
   } catch (err) {
     console.error(err);
     res.redirect('/rooms');
