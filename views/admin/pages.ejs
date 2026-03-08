@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          ocean: { 50:'#f0f7ff',600:'#0070c9',900:'#0b3f6f' },
+          gold: { 50:'#fdfaef',400:'#e5b43e',500:'#d4982a',600:'#c9a84c' },
+          navy: { 800:'#1a2744',900:'#0f172a',950:'#080d1a' }
+        },
+        fontFamily: { serif:['Cormorant Garamond','Georgia','serif'], sans:['Inter','system-ui','sans-serif'] }
+      }}
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="font-sans bg-gray-50">
+  <%- include('../partials/admin-sidebar') %>
+
+  <div class="md:ml-64 mt-16 md:mt-0 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-8">
+        <h1 class="text-3xl font-serif font-bold text-navy-900">Edit Pages</h1>
+        <p class="text-gray-500 mt-1">Manage text and images on your website pages</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <% pages.forEach(page => { %>
+          <a href="/admin/pages/<%= page.slug %>" class="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gold-400/50">
+            <div class="w-14 h-14 rounded-xl bg-ocean-50 flex items-center justify-center mb-5 group-hover:bg-gold-50 transition-colors">
+              <svg class="w-7 h-7 text-ocean-600 group-hover:text-gold-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="<%= page.icon %>"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-serif font-bold text-navy-900 mb-2"><%= page.name %></h3>
+            <p class="text-sm text-gray-400"><%= page.fieldCount %> editable fields</p>
+            <div class="mt-4 flex items-center gap-1 text-sm text-ocean-600 group-hover:text-gold-600 font-medium transition-colors">
+              Edit Content
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        <% }); %>
+      </div>
+
+      <div class="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-5">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <div>
+            <p class="text-sm font-medium text-blue-800">How it works</p>
+            <p class="text-sm text-blue-600 mt-1">Edit any text or image URL on your public pages. Changes appear instantly after saving. Room listings and gallery images are managed from their own sections.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

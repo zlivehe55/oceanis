@@ -6,6 +6,7 @@ const Booking = require('../models/Booking');
 const Gallery = require('../models/Gallery');
 const Contact = require('../models/Contact');
 const User = require('../models/User');
+const SiteContent = require('../models/SiteContent');
 const fs = require('fs');
 const path = require('path');
 
@@ -268,6 +269,85 @@ router.delete('/contacts/:id', async (req, res) => {
     res.redirect('/admin/contacts');
   } catch (err) {
     res.redirect('/admin/contacts');
+  }
+});
+
+// --- Pages (CMS) ---
+router.get('/pages', async (req, res) => {
+  try {
+    const pages = [
+      { slug: 'home', name: 'Home Page', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+      { slug: 'about', name: 'About Page', icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+      { slug: 'contact', name: 'Contact Page', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' }
+    ];
+
+    for (const page of pages) {
+      page.fieldCount = await SiteContent.countDocuments({ page: page.slug });
+    }
+
+    res.render('admin/pages', { title: 'Edit Pages - Oceanis', pages, layout: false });
+  } catch (err) {
+    console.error(err);
+    res.redirect('/admin');
+  }
+});
+
+router.get('/pages/:page', async (req, res) => {
+  try {
+    const pageName = req.params.page;
+    if (!['home', 'about', 'contact'].includes(pageName)) {
+      return res.redirect('/admin/pages');
+    }
+
+    const items = await SiteContent.find({ page: pageName }).sort('section order');
+
+    const sections = {};
+    items.forEach(item => {
+      if (!sections[item.section]) sections[item.section] = [];
+      sections[item.section].push(item);
+    });
+
+    const pageLabels = { home: 'Home Page', about: 'About Page', contact: 'Contact Page' };
+
+    res.render('admin/page-edit', {
+      title: `Edit ${pageLabels[pageName]} - Oceanis`,
+      pageName,
+      pageLabel: pageLabels[pageName],
+      sections,
+      layout: false
+    });
+  } catch (err) {
+    console.error(err);
+    res.redirect('/admin/pages');
+  }
+});
+
+router.post('/pages/:page', async (req, res) => {
+  try {
+    const pageName = req.params.page;
+    if (!['home', 'about', 'contact'].includes(pageName)) {
+      return res.redirect('/admin/pages');
+    }
+
+    const updates = req.body;
+    const keys = Object.keys(updates);
+
+    for (const key of keys) {
+      if (key.startsWith(pageName + '_')) {
+        await SiteContent.findOneAndUpdate(
+          { key },
+          { value: updates[key] },
+          { upsert: false }
+        );
+      }
+    }
+
+    req.session.flash = { type: 'success', message: 'Page content updated successfully!' };
+    res.redirect(`/admin/pages/${pageName}`);
+  } catch (err) {
+    console.error(err);
+    req.session.flash = { type: 'error', message: 'Failed to update page content.' };
+    res.redirect(`/admin/pages/${req.params.page}`);
   }
 });
 

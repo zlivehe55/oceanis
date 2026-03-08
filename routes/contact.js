@@ -1,11 +1,19 @@
 const router = require('express').Router();
 const Contact = require('../models/Contact');
+const SiteContent = require('../models/SiteContent');
 
-router.get('/', (req, res) => {
-  res.render('contact', {
-    title: 'Contact Oceanis Hotel Douala | Reservations & Inquiries',
-    metaDesc: 'Contact Oceanis Hotel in Douala, Cameroon. Email oceaniscm@gmail.com or visit us in Bonanjo District. Available 24/7 for reservations and inquiries.'
-  });
+router.get('/', async (req, res) => {
+  try {
+    const c = await SiteContent.getPage('contact');
+    res.render('contact', {
+      title: 'Contact Oceanis Hotel Douala | Reservations & Inquiries',
+      metaDesc: 'Contact Oceanis Hotel in Douala, Cameroon. Email oceaniscm@gmail.com or visit us in Bonanjo District. Available 24/7 for reservations and inquiries.',
+      c
+    });
+  } catch (err) {
+    console.error(err);
+    res.render('contact', { title: 'Contact Oceanis Hotel Douala', c: {} });
+  }
 });
 
 router.post('/', async (req, res) => {

@@ -1,22 +1,22 @@
 <%- include('partials/header') %>
+<% if (!c) c = {}; %>
 
 <!-- Hero Section -->
 <section class="relative min-h-screen flex items-center justify-center hero-bg"
-  style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80');">
+  style="background-image: url('<%= c.home_hero_image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80' %>');">
   <div class="absolute inset-0 bg-gradient-to-b from-navy-950/70 via-navy-950/50 to-navy-950/90"></div>
 
   <div class="relative z-10 max-w-5xl mx-auto px-4 text-center">
     <div class="animate-fade-up">
       <p class="text-gold-400 text-sm md:text-base uppercase tracking-[0.3em] font-medium mb-6">
-        Welcome to Oceanis
+        <%= c.home_hero_welcome || 'Welcome to Oceanis' %>
       </p>
       <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-6 leading-tight">
-        Luxury on the<br>
-        <span class="text-gradient">Coast of Douala</span>
+        <%= c.home_hero_title1 || 'Luxury on the' %><br>
+        <span class="text-gradient"><%= c.home_hero_title2 || 'Coast of Douala' %></span>
       </h1>
       <p class="text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-        Experience world-class hospitality where the Atlantic meets refined elegance. 
-        Your unforgettable stay begins here.
+        <%= c.home_hero_subtitle || 'Experience world-class hospitality where the Atlantic meets refined elegance. Your unforgettable stay begins here.' %>
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a href="/rooms" class="px-10 py-4 bg-gold-500 hover:bg-gold-600 text-navy-900 font-semibold rounded text-sm uppercase tracking-wider transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/25">
@@ -28,7 +28,6 @@
       </div>
     </div>
 
-    <!-- Scroll indicator -->
     <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float">
       <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2">
         <div class="w-1 h-3 bg-gold-400 rounded-full"></div>
@@ -73,20 +72,16 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <div data-aos="fade-right">
-        <p class="text-gold-600 text-sm uppercase tracking-[0.2em] font-medium mb-4">About Oceanis</p>
+        <p class="text-gold-600 text-sm uppercase tracking-[0.2em] font-medium mb-4"><%= c.home_about_label || 'About Oceanis' %></p>
         <h2 class="text-4xl md:text-5xl font-serif font-bold text-navy-900 mb-6 leading-tight">
-          A Haven of<br>Refined Luxury
+          <%= c.home_about_title || 'A Haven of Refined Luxury' %>
         </h2>
         <div class="gold-line mb-8"></div>
         <p class="text-gray-600 leading-relaxed mb-6">
-          Nestled in the vibrant heart of Douala, Oceanis Hotel offers an extraordinary blend of 
-          Cameroonian warmth and world-class sophistication. Every detail has been thoughtfully 
-          curated to ensure your comfort and delight.
+          <%= c.home_about_text1 || 'Nestled in the vibrant heart of Douala, Oceanis Hotel offers an extraordinary blend of Cameroonian warmth and world-class sophistication.' %>
         </p>
         <p class="text-gray-600 leading-relaxed mb-8">
-          From our elegantly appointed rooms with ocean-inspired design to our exceptional dining 
-          and spa experiences, we invite you to discover a new standard of hospitality on the 
-          West African coast.
+          <%= c.home_about_text2 || 'From our elegantly appointed rooms with ocean-inspired design to our exceptional dining and spa experiences, we invite you to discover a new standard of hospitality.' %>
         </p>
         <a href="/about" class="inline-flex items-center gap-2 text-ocean-700 font-semibold text-sm hover:text-gold-600 transition-colors group">
           Learn More About Us
@@ -94,12 +89,12 @@
         </a>
       </div>
       <div data-aos="fade-left" class="relative">
-        <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80" 
-             alt="Oceanis Hotel Lobby" 
+        <img src="<%= c.home_about_image || 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80' %>"
+             alt="Oceanis Hotel Lobby"
              class="rounded-2xl shadow-2xl w-full h-[500px] object-cover">
         <div class="absolute -bottom-6 -left-6 bg-gold-500 text-navy-900 p-6 rounded-xl shadow-lg">
-          <p class="text-3xl font-serif font-bold">15+</p>
-          <p class="text-sm font-medium uppercase tracking-wide">Years of Excellence</p>
+          <p class="text-3xl font-serif font-bold"><%= c.home_about_stat_number || '15+' %></p>
+          <p class="text-sm font-medium uppercase tracking-wide"><%= c.home_about_stat_label || 'Years of Excellence' %></p>
         </div>
       </div>
     </div>
@@ -110,10 +105,10 @@
 <section class="py-24 bg-gray-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16" data-aos="fade-up">
-      <p class="text-gold-600 text-sm uppercase tracking-[0.2em] font-medium mb-4">Accommodation</p>
-      <h2 class="text-4xl md:text-5xl font-serif font-bold text-navy-900 mb-4">Our Finest Rooms</h2>
+      <p class="text-gold-600 text-sm uppercase tracking-[0.2em] font-medium mb-4"><%= c.home_rooms_label || 'Accommodation' %></p>
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-navy-900 mb-4"><%= c.home_rooms_title || 'Our Finest Rooms' %></h2>
       <div class="gold-line mx-auto mb-6"></div>
-      <p class="text-gray-500 max-w-2xl mx-auto">Each room is a sanctuary of comfort, blending contemporary design with warm African touches.</p>
+      <p class="text-gray-500 max-w-2xl mx-auto"><%= c.home_rooms_subtitle || 'Each room is a sanctuary of comfort, blending contemporary design with warm African touches.' %></p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -121,8 +116,8 @@
         <% rooms.forEach((room, i) => { %>
           <div class="room-card bg-white rounded-2xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="<%= i * 100 %>">
             <div class="relative overflow-hidden h-64">
-              <img src="<%= room.images && room.images[0] ? room.images[0] : 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80' %>" 
-                   alt="<%= room.name %>" 
+              <img src="<%= room.images && room.images[0] ? room.images[0] : 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80' %>"
+                   alt="<%= room.name %>"
                    class="room-image w-full h-full object-cover">
               <div class="absolute top-4 left-4">
                 <span class="px-3 py-1 bg-navy-900/80 text-white text-xs font-medium rounded-full backdrop-blur-sm"><%= room.type %></span>
@@ -164,7 +159,6 @@
         <div class="col-span-3 text-center py-16">
           <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
           <p class="text-gray-400 text-lg">Rooms coming soon</p>
-          <p class="text-gray-400 text-sm mt-1">Our luxury accommodations are being prepared for you.</p>
         </div>
       <% } %>
     </div>
@@ -182,8 +176,8 @@
 <section class="py-24 bg-navy-900 text-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16" data-aos="fade-up">
-      <p class="text-gold-400 text-sm uppercase tracking-[0.2em] font-medium mb-4">Services</p>
-      <h2 class="text-4xl md:text-5xl font-serif font-bold mb-4">Hotel Amenities</h2>
+      <p class="text-gold-400 text-sm uppercase tracking-[0.2em] font-medium mb-4"><%= c.home_amenities_label || 'Services' %></p>
+      <h2 class="text-4xl md:text-5xl font-serif font-bold mb-4"><%= c.home_amenities_title || 'Hotel Amenities' %></h2>
       <div class="gold-line mx-auto"></div>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
@@ -212,8 +206,8 @@
 <section class="py-24 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16" data-aos="fade-up">
-      <p class="text-gold-600 text-sm uppercase tracking-[0.2em] font-medium mb-4">Gallery</p>
-      <h2 class="text-4xl md:text-5xl font-serif font-bold text-navy-900 mb-4">Moments at Oceanis</h2>
+      <p class="text-gold-600 text-sm uppercase tracking-[0.2em] font-medium mb-4"><%= c.home_gallery_label || 'Gallery' %></p>
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-navy-900 mb-4"><%= c.home_gallery_title || 'Moments at Oceanis' %></h2>
       <div class="gold-line mx-auto"></div>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -228,14 +222,13 @@
 <% } %>
 
 <!-- CTA Section -->
-<section class="relative py-32 hero-bg" style="background-image: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&q=80');">
+<section class="relative py-32 hero-bg" style="background-image: url('<%= c.home_cta_image || 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&q=80' %>');">
   <div class="absolute inset-0 bg-navy-950/80"></div>
   <div class="relative z-10 max-w-3xl mx-auto px-4 text-center" data-aos="fade-up">
-    <p class="text-gold-400 text-sm uppercase tracking-[0.2em] font-medium mb-4">Ready for Luxury?</p>
-    <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6">Book Your Stay Today</h2>
+    <p class="text-gold-400 text-sm uppercase tracking-[0.2em] font-medium mb-4"><%= c.home_cta_label || 'Ready for Luxury?' %></p>
+    <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6"><%= c.home_cta_title || 'Book Your Stay Today' %></h2>
     <p class="text-white/60 text-lg mb-10 font-light">
-      Indulge in an experience that transcends the ordinary. Reserve your room at Oceanis and 
-      create memories that last a lifetime.
+      <%= c.home_cta_text || 'Indulge in an experience that transcends the ordinary. Reserve your room at Oceanis and create memories that last a lifetime.' %>
     </p>
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="/rooms" class="px-10 py-4 bg-gold-500 hover:bg-gold-600 text-navy-900 font-semibold rounded text-sm uppercase tracking-wider transition-all duration-300 animate-pulse-gold">
@@ -252,15 +245,15 @@
 <section class="py-24 bg-gray-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16" data-aos="fade-up">
-      <p class="text-gold-600 text-sm uppercase tracking-[0.2em] font-medium mb-4">Testimonials</p>
-      <h2 class="text-4xl md:text-5xl font-serif font-bold text-navy-900 mb-4">Guest Reviews</h2>
+      <p class="text-gold-600 text-sm uppercase tracking-[0.2em] font-medium mb-4"><%= c.home_testimonials_label || 'Testimonials' %></p>
+      <h2 class="text-4xl md:text-5xl font-serif font-bold text-navy-900 mb-4"><%= c.home_testimonials_title || 'Guest Reviews' %></h2>
       <div class="gold-line mx-auto"></div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <% const reviews = [
-        { name: 'Marie T.', location: 'Paris, France', text: 'An absolutely stunning hotel. The rooms are impeccable, the staff is incredibly warm, and the location is perfect. My best stay in Douala by far.', rating: 5 },
-        { name: 'Jean-Pierre K.', location: 'Douala, Cameroon', text: 'Oceanis sets the standard for luxury hospitality in Cameroon. The attention to detail and service quality are truly world-class.', rating: 5 },
-        { name: 'Sarah M.', location: 'London, UK', text: 'From the moment we arrived, everything was perfect. Beautiful rooms, amazing restaurant, and the pool area is a dream. Highly recommend!', rating: 5 }
+        { name: c.home_review1_name || 'Marie T.', location: c.home_review1_location || 'Paris, France', text: c.home_review1_text || 'An absolutely stunning hotel.', rating: 5 },
+        { name: c.home_review2_name || 'Jean-Pierre K.', location: c.home_review2_location || 'Douala, Cameroon', text: c.home_review2_text || 'Oceanis sets the standard for luxury hospitality.', rating: 5 },
+        { name: c.home_review3_name || 'Sarah M.', location: c.home_review3_location || 'London, UK', text: c.home_review3_text || 'From the moment we arrived, everything was perfect.', rating: 5 }
       ]; %>
       <% reviews.forEach((r, i) => { %>
         <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow" data-aos="fade-up" data-aos-delay="<%= i * 100 %>">
