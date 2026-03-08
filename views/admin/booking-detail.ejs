@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          ocean: { 50:'#f0f7ff',600:'#0070c9',900:'#0b3f6f' },
+          gold: { 400:'#e5b43e',500:'#d4982a',600:'#c9a84c' },
+          navy: { 800:'#1a2744',900:'#0f172a',950:'#080d1a' }
+        },
+        fontFamily: { serif:['Cormorant Garamond','serif'], sans:['Inter','sans-serif'] }
+      }}
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="font-sans bg-gray-50 text-gray-800">
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+<div id="flash-msg" class="fixed top-4 right-4 z-[100] max-w-md animate-slide-in">
+  <div class="px-6 py-4 rounded-lg shadow-2xl border <%= flash.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-red-50 border-red-200 text-red-800' %>">
+    <p class="text-sm font-medium"><%= flash.message %></p>
+  </div>
+</div>
+<script>setTimeout(() => { const el = document.getElementById('flash-msg'); if(el) el.remove(); }, 5000);</script>
+<% } %>
+
+<%- include('../partials/admin-sidebar') %>
+
+<div class="md:ml-64 mt-16 md:mt-0 p-4 md:p-8">
+  <div class="mb-8">
+    <a href="/admin/bookings" class="text-sm text-ocean-600 hover:text-ocean-800 font-medium">&larr; Back to Bookings</a>
+    <h1 class="text-3xl font-serif font-bold text-navy-900 mt-2">Booking Details</h1>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Booking Info -->
+    <div class="lg:col-span-2 space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-lg font-semibold text-navy-900">Reservation Info</h2>
+          <span class="badge badge-<%= booking.status %> text-xs"><%= booking.status %></span>
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Booking ID</p>
+            <p class="text-sm font-mono font-medium text-navy-900"><%= booking._id %></p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Room</p>
+            <p class="text-sm font-medium text-navy-900"><%= booking.room ? booking.room.name : 'N/A' %></p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Check-in</p>
+            <p class="text-sm font-medium text-navy-900"><%= booking.checkIn.toLocaleDateString('en-GB', {weekday:'short',day:'numeric',month:'long',year:'numeric'}) %></p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Check-out</p>
+            <p class="text-sm font-medium text-navy-900"><%= booking.checkOut.toLocaleDateString('en-GB', {weekday:'short',day:'numeric',month:'long',year:'numeric'}) %></p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Nights</p>
+            <p class="text-sm font-medium text-navy-900"><%= booking.nights %></p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Guests</p>
+            <p class="text-sm font-medium text-navy-900"><%= booking.guests %></p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Total Amount</p>
+            <p class="text-lg font-bold text-navy-900 price-tag"><%= booking.totalPrice.toLocaleString() %> CFA</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Booked On</p>
+            <p class="text-sm font-medium text-navy-900"><%= booking.createdAt.toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'}) %></p>
+          </div>
+        </div>
+        <% if (booking.specialRequests) { %>
+        <div class="mt-6 pt-6 border-t border-gray-100">
+          <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">Special Requests</p>
+          <p class="text-sm text-gray-600 bg-gray-50 rounded-lg p-4"><%= booking.specialRequests %></p>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- Guest Info -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h2 class="text-lg font-semibold text-navy-900 mb-6">Guest Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Name</p>
+            <p class="text-sm font-medium text-navy-900"><%= booking.guestName %></p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Email</p>
+            <a href="mailto:<%= booking.guestEmail %>" class="text-sm text-ocean-600 hover:text-ocean-800"><%= booking.guestEmail %></a>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Phone</p>
+            <a href="tel:<%= booking.guestPhone %>" class="text-sm text-ocean-600 hover:text-ocean-800"><%= booking.guestPhone %></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions Sidebar -->
+    <div class="space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h2 class="text-lg font-semibold text-navy-900 mb-4">Update Status</h2>
+        <form action="/admin/bookings/<%= booking._id %>?_method=PUT" method="POST" class="space-y-4">
+          <div>
+            <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Booking Status</label>
+            <select name="status" class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-ocean-500 transition-colors appearance-none bg-white">
+              <% ['pending','confirmed','cancelled','completed'].forEach(s => { %>
+                <option value="<%= s %>" <%= booking.status === s ? 'selected' : '' %>><%= s.charAt(0).toUpperCase() + s.slice(1) %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Payment Status</label>
+            <select name="paymentStatus" class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-ocean-500 transition-colors appearance-none bg-white">
+              <% ['pending','paid','refunded'].forEach(s => { %>
+                <option value="<%= s %>" <%= booking.paymentStatus === s ? 'selected' : '' %>><%= s.charAt(0).toUpperCase() + s.slice(1) %></option>
+              <% }); %>
+            </select>
+          </div>
+          <button type="submit" class="w-full py-3 bg-gold-500 hover:bg-gold-600 text-navy-900 font-semibold rounded-lg text-sm transition-colors">
+            Update Booking
+          </button>
+        </form>
+      </div>
+
+      <% if (booking.room) { %>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <img src="<%= booking.room.images && booking.room.images[0] ? booking.room.images[0] : 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&q=80' %>" 
+             alt="" class="w-full h-40 object-cover">
+        <div class="p-4">
+          <h3 class="font-semibold text-navy-900"><%= booking.room.name %></h3>
+          <p class="text-xs text-gray-400"><%= booking.room.type %> &middot; <%= booking.room.price.toLocaleString() %> CFA/night</p>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

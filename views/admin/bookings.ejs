@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          ocean: { 50:'#f0f7ff',100:'#e0effe',600:'#0070c9',800:'#064b86',900:'#0b3f6f' },
+          gold: { 50:'#fdfaef',400:'#e5b43e',500:'#d4982a',600:'#c9a84c' },
+          navy: { 800:'#1a2744',900:'#0f172a',950:'#080d1a' }
+        },
+        fontFamily: { serif:['Cormorant Garamond','serif'], sans:['Inter','sans-serif'] }
+      }}
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="font-sans bg-gray-50 text-gray-800">
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+<div id="flash-msg" class="fixed top-4 right-4 z-[100] max-w-md animate-slide-in">
+  <div class="px-6 py-4 rounded-lg shadow-2xl border <%= flash.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-red-50 border-red-200 text-red-800' %>">
+    <p class="text-sm font-medium"><%= flash.message %></p>
+  </div>
+</div>
+<script>setTimeout(() => { const el = document.getElementById('flash-msg'); if(el) el.remove(); }, 5000);</script>
+<% } %>
+
+<%- include('../partials/admin-sidebar') %>
+
+<div class="md:ml-64 mt-16 md:mt-0 p-4 md:p-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-serif font-bold text-navy-900">Bookings</h1>
+    <p class="text-gray-500 text-sm mt-1">Manage all reservations</p>
+  </div>
+
+  <!-- Status Filter -->
+  <div class="flex items-center gap-2 mb-6">
+    <% ['all', 'pending', 'confirmed', 'cancelled', 'completed'].forEach(s => { %>
+      <a href="/admin/bookings?status=<%= s %>" class="px-4 py-2 rounded-full text-xs font-medium transition-all uppercase tracking-wide
+        <%= currentStatus === s ? 'bg-navy-900 text-white' : 'bg-white text-gray-500 hover:bg-gray-100 border border-gray-200' %>">
+        <%= s %>
+      </a>
+    <% }); %>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full admin-table">
+        <thead>
+          <tr class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+            <th class="px-6 py-3 text-left">Guest</th>
+            <th class="px-6 py-3 text-left">Room</th>
+            <th class="px-6 py-3 text-left">Check In</th>
+            <th class="px-6 py-3 text-left">Check Out</th>
+            <th class="px-6 py-3 text-left">Amount</th>
+            <th class="px-6 py-3 text-left">Status</th>
+            <th class="px-6 py-3 text-left">Payment</th>
+            <th class="px-6 py-3 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% if (bookings && bookings.length > 0) { %>
+            <% bookings.forEach(b => { %>
+              <tr>
+                <td class="px-6 py-4">
+                  <p class="text-sm font-medium text-navy-900"><%= b.guestName %></p>
+                  <p class="text-xs text-gray-400"><%= b.guestEmail %></p>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600"><%= b.room ? b.room.name : 'Deleted' %></td>
+                <td class="px-6 py-4 text-sm text-gray-600"><%= b.checkIn.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'}) %></td>
+                <td class="px-6 py-4 text-sm text-gray-600"><%= b.checkOut.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'}) %></td>
+                <td class="px-6 py-4 text-sm font-semibold text-navy-900 price-tag"><%= b.totalPrice.toLocaleString() %> CFA</td>
+                <td class="px-6 py-4"><span class="badge badge-<%= b.status %>"><%= b.status %></span></td>
+                <td class="px-6 py-4"><span class="badge badge-<%= b.paymentStatus %>"><%= b.paymentStatus %></span></td>
+                <td class="px-6 py-4 text-right">
+                  <a href="/admin/bookings/<%= b._id %>" class="text-xs text-ocean-600 hover:text-ocean-800 font-medium">Details &rarr;</a>
+                </td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr><td colspan="8" class="px-6 py-12 text-center text-gray-400">No bookings found.</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

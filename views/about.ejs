@@ -1,0 +1,124 @@
+<%- include('partials/header') %>
+
+<!-- Page Header -->
+<section class="relative pt-32 pb-24 hero-bg" style="background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1920&q=80');">
+  <div class="absolute inset-0 bg-navy-950/75"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="text-gold-400 text-sm uppercase tracking-[0.2em] font-medium mb-4">Our Story</p>
+    <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">About Oceanis</h1>
+    <div class="gold-line mx-auto mb-6"></div>
+    <p class="text-white/60 max-w-xl mx-auto">Where Cameroonian warmth meets world-class luxury on the Atlantic coast.</p>
+  </div>
+</section>
+
+<!-- Story Section -->
+<section class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div data-aos="fade-right">
+        <p class="text-gold-600 text-sm uppercase tracking-[0.2em] font-medium mb-4">Est. 2010</p>
+        <h2 class="text-3xl md:text-4xl font-serif font-bold text-navy-900 mb-6 leading-tight">
+          Crafted for Those Who<br>Appreciate the Finer Things
+        </h2>
+        <div class="gold-line mb-8"></div>
+        <p class="text-gray-600 leading-relaxed mb-6">
+          Oceanis Hotel was born from a vision to bring world-class hospitality to the vibrant 
+          city of Douala. Situated in the prestigious Bonanjo district, our hotel combines the 
+          rich cultural heritage of Cameroon with contemporary luxury.
+        </p>
+        <p class="text-gray-600 leading-relaxed mb-6">
+          Every corner of Oceanis tells a story - from the locally sourced artwork adorning our 
+          walls to the flavors of our restaurant that celebrate the diversity of Cameroonian cuisine. 
+          Our dedicated team is committed to making every stay an unforgettable experience.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+          Whether you're visiting for business, leisure, or a special occasion, Oceanis is more 
+          than a hotel - it's a destination that captures the spirit of Douala and the warmth 
+          of its people.
+        </p>
+      </div>
+      <div data-aos="fade-left" class="relative">
+        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&q=80" 
+             alt="Oceanis Hotel" class="rounded-2xl shadow-2xl w-full h-[500px] object-cover">
+        <div class="absolute -top-6 -right-6 w-32 h-32 border-2 border-gold-500 rounded-2xl"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="py-20 bg-navy-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <% const stats = [
+        { number: '15+', label: 'Years of Service' },
+        { number: '50+', label: 'Luxury Rooms' },
+        { number: '10K+', label: 'Happy Guests' },
+        { number: '4.8', label: 'Average Rating' }
+      ]; %>
+      <% stats.forEach((s, i) => { %>
+        <div class="text-center" data-aos="fade-up" data-aos-delay="<%= i * 100 %>">
+          <p class="text-4xl md:text-5xl font-serif font-bold text-gradient mb-2"><%= s.number %></p>
+          <p class="text-white/60 text-sm uppercase tracking-wider"><%= s.label %></p>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="py-24 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <p class="text-gold-600 text-sm uppercase tracking-[0.2em] font-medium mb-4">Our Values</p>
+      <h2 class="text-4xl font-serif font-bold text-navy-900 mb-4">What Sets Us Apart</h2>
+      <div class="gold-line mx-auto"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <% const values = [
+        { 
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>',
+          title: 'Exceptional Service',
+          desc: 'Our staff is trained to anticipate your needs before you even ask. From the moment you arrive, every interaction is personalized.'
+        },
+        { 
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>',
+          title: 'Luxury & Comfort',
+          desc: 'Premium linens, state-of-the-art amenities, and meticulously designed spaces ensure your comfort at every turn.'
+        },
+        { 
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+          title: 'Local Heritage',
+          desc: 'We celebrate the rich culture of Cameroon through our cuisine, design, and the genuine warmth of our hospitality.'
+        }
+      ]; %>
+      <% values.forEach((v, i) => { %>
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center" data-aos="fade-up" data-aos-delay="<%= i * 100 %>">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gold-50 flex items-center justify-center">
+            <svg class="w-7 h-7 text-gold-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><%- v.icon %></svg>
+          </div>
+          <h3 class="text-xl font-serif font-bold text-navy-900 mb-3"><%= v.title %></h3>
+          <p class="text-gray-500 text-sm leading-relaxed"><%= v.desc %></p>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 bg-white">
+  <div class="max-w-3xl mx-auto px-4 text-center" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-serif font-bold text-navy-900 mb-6">Experience Oceanis</h2>
+    <p class="text-gray-500 mb-8">Ready to discover the finest hotel in Douala? Book your stay today and let us create unforgettable memories for you.</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="/rooms" class="px-10 py-4 bg-gold-500 hover:bg-gold-600 text-navy-900 font-semibold rounded text-sm uppercase tracking-wider transition-all">
+        View Our Rooms
+      </a>
+      <a href="/contact" class="px-10 py-4 border-2 border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white font-semibold rounded text-sm uppercase tracking-wider transition-all">
+        Get in Touch
+      </a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

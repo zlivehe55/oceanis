@@ -1,0 +1,102 @@
+<%- include('partials/header') %>
+
+<section class="pt-32 pb-24 bg-gray-50 min-h-screen">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10" data-aos="fade-up">
+      <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-emerald-100 flex items-center justify-center">
+        <svg class="w-10 h-10 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-serif font-bold text-navy-900 mb-2">Booking Confirmed!</h1>
+      <p class="text-gray-500">Your reservation has been submitted successfully.</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+      <div class="bg-navy-900 p-6 text-center">
+        <p class="text-gold-400 text-xs uppercase tracking-widest mb-1">Booking Reference</p>
+        <p class="text-white text-2xl font-mono font-bold tracking-wider"><%= booking._id.toString().slice(-8).toUpperCase() %></p>
+      </div>
+
+      <div class="p-6 md:p-8">
+        <% if (booking.room) { %>
+        <div class="flex items-center gap-4 pb-6 mb-6 border-b border-gray-100">
+          <img src="<%= booking.room.images && booking.room.images[0] ? booking.room.images[0] : 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=200&q=80' %>" 
+               alt="<%= booking.room.name %>" class="w-24 h-24 rounded-xl object-cover">
+          <div>
+            <h3 class="font-serif font-bold text-navy-900 text-lg"><%= booking.room.name %></h3>
+            <p class="text-sm text-gray-400"><%= booking.room.type %></p>
+          </div>
+        </div>
+        <% } %>
+
+        <div class="grid grid-cols-2 gap-6 mb-6">
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Check-in</p>
+            <p class="font-semibold text-navy-900"><%= booking.checkIn.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' }) %></p>
+            <p class="text-xs text-gray-400 mt-0.5">From 2:00 PM</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Check-out</p>
+            <p class="font-semibold text-navy-900"><%= booking.checkOut.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' }) %></p>
+            <p class="text-xs text-gray-400 mt-0.5">Until 12:00 PM</p>
+          </div>
+        </div>
+
+        <div class="space-y-3 mb-6">
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-500">Guest</span>
+            <span class="font-medium text-navy-900"><%= booking.guestName %></span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-500">Email</span>
+            <span class="font-medium text-navy-900"><%= booking.guestEmail %></span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-500">Phone</span>
+            <span class="font-medium text-navy-900"><%= booking.guestPhone %></span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-500">Guests</span>
+            <span class="font-medium text-navy-900"><%= booking.guests %></span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-500">Nights</span>
+            <span class="font-medium text-navy-900"><%= booking.nights %></span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-500">Status</span>
+            <span class="badge badge-<%= booking.status %>"><%= booking.status %></span>
+          </div>
+        </div>
+
+        <div class="bg-gray-50 rounded-xl p-4">
+          <div class="flex justify-between items-center">
+            <span class="font-semibold text-navy-900">Total Amount</span>
+            <span class="text-2xl font-serif font-bold text-navy-900 price-tag"><%= booking.totalPrice.toLocaleString() %> CFA</span>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Payment: Pay at hotel</p>
+        </div>
+
+        <% if (booking.specialRequests) { %>
+        <div class="mt-4 p-4 bg-ocean-50 rounded-xl">
+          <p class="text-xs text-ocean-600 uppercase tracking-wider mb-1">Special Requests</p>
+          <p class="text-sm text-gray-600"><%= booking.specialRequests %></p>
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="text-center mt-8 space-y-3" data-aos="fade-up" data-aos-delay="200">
+      <p class="text-sm text-gray-500">A confirmation email will be sent to <strong><%= booking.guestEmail %></strong></p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-4">
+        <a href="/" class="px-8 py-3 bg-navy-900 text-white text-sm font-semibold rounded-lg hover:bg-navy-800 transition-colors">
+          Back to Home
+        </a>
+        <a href="/rooms" class="px-8 py-3 border border-navy-900 text-navy-900 text-sm font-semibold rounded-lg hover:bg-navy-900 hover:text-white transition-all">
+          Browse More Rooms
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

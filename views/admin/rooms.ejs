@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          ocean: { 50:'#f0f7ff',100:'#e0effe',200:'#b9dffe',600:'#0070c9',800:'#064b86',900:'#0b3f6f' },
+          gold: { 50:'#fdfaef',400:'#e5b43e',500:'#d4982a',600:'#c9a84c' },
+          navy: { 800:'#1a2744',900:'#0f172a',950:'#080d1a' }
+        },
+        fontFamily: { serif:['Cormorant Garamond','serif'], sans:['Inter','sans-serif'] }
+      }}
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="font-sans bg-gray-50 text-gray-800">
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+<div id="flash-msg" class="fixed top-4 right-4 z-[100] max-w-md animate-slide-in">
+  <div class="px-6 py-4 rounded-lg shadow-2xl border <%= flash.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-red-50 border-red-200 text-red-800' %>">
+    <p class="text-sm font-medium"><%= flash.message %></p>
+  </div>
+</div>
+<script>setTimeout(() => { const el = document.getElementById('flash-msg'); if(el) el.remove(); }, 5000);</script>
+<% } %>
+
+<%- include('../partials/admin-sidebar') %>
+
+<div class="md:ml-64 mt-16 md:mt-0 p-4 md:p-8">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-serif font-bold text-navy-900">Rooms</h1>
+      <p class="text-gray-500 text-sm mt-1">Manage your hotel rooms</p>
+    </div>
+    <a href="/admin/rooms/new" class="px-6 py-2.5 bg-gold-500 hover:bg-gold-600 text-navy-900 text-sm font-semibold rounded-lg transition-colors">
+      + Add Room
+    </a>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full admin-table">
+        <thead>
+          <tr class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+            <th class="px-6 py-3 text-left">Room</th>
+            <th class="px-6 py-3 text-left">Type</th>
+            <th class="px-6 py-3 text-left">Price/Night</th>
+            <th class="px-6 py-3 text-left">Capacity</th>
+            <th class="px-6 py-3 text-left">Featured</th>
+            <th class="px-6 py-3 text-left">Status</th>
+            <th class="px-6 py-3 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% if (rooms && rooms.length > 0) { %>
+            <% rooms.forEach(room => { %>
+              <tr>
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <img src="<%= room.images && room.images[0] ? room.images[0] : 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=100&q=80' %>" 
+                         alt="" class="w-12 h-12 rounded-lg object-cover">
+                    <div>
+                      <p class="text-sm font-medium text-navy-900"><%= room.name %></p>
+                      <p class="text-xs text-gray-400"><%= room.slug %></p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600"><%= room.type %></td>
+                <td class="px-6 py-4 text-sm font-semibold text-navy-900 price-tag"><%= room.price.toLocaleString() %> CFA</td>
+                <td class="px-6 py-4 text-sm text-gray-600"><%= room.capacity %></td>
+                <td class="px-6 py-4">
+                  <% if (room.featured) { %>
+                    <span class="w-2 h-2 inline-block rounded-full bg-gold-500"></span>
+                    <span class="text-xs text-gold-600 ml-1">Featured</span>
+                  <% } else { %>
+                    <span class="text-xs text-gray-400">No</span>
+                  <% } %>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="badge <%= room.available ? 'badge-confirmed' : 'badge-cancelled' %>"><%= room.available ? 'Available' : 'Unavailable' %></span>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <a href="/rooms/<%= room.slug %>" target="_blank" class="p-1.5 text-gray-400 hover:text-ocean-600 transition-colors" title="View">
+                      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    </a>
+                    <a href="/admin/rooms/<%= room._id %>/edit" class="p-1.5 text-gray-400 hover:text-ocean-600 transition-colors" title="Edit">
+                      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    </a>
+                    <form action="/admin/rooms/<%= room._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this room?');" class="inline">
+                      <button type="submit" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr><td colspan="7" class="px-6 py-12 text-center text-gray-400">No rooms yet. <a href="/admin/rooms/new" class="text-ocean-600 font-medium">Add your first room</a>.</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

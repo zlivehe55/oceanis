@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'Oceanis - Luxury Hotel' %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ocean: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              200: '#b9dffe',
+              300: '#7cc5fd',
+              400: '#36a9fa',
+              500: '#0c8eeb',
+              600: '#0070c9',
+              700: '#0159a3',
+              800: '#064b86',
+              900: '#0b3f6f',
+              950: '#07284a',
+            },
+            gold: {
+              50: '#fdfaef',
+              100: '#f9f0d0',
+              200: '#f3de9d',
+              300: '#ecc96a',
+              400: '#e5b43e',
+              500: '#d4982a',
+              600: '#c9a84c',
+              700: '#8f6417',
+              800: '#76501a',
+              900: '#63431b',
+              950: '#39230b',
+            },
+            navy: {
+              800: '#1a2744',
+              900: '#0f172a',
+              950: '#080d1a',
+            }
+          },
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <% if (typeof flash !== 'undefined' && flash) { %>
+  <div id="flash-msg" class="fixed top-4 right-4 z-[100] max-w-md animate-slide-in">
+    <div class="px-6 py-4 rounded-lg shadow-2xl border
+      <%= flash.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-red-50 border-red-200 text-red-800' %>">
+      <div class="flex items-center gap-3">
+        <% if (flash.type === 'success') { %>
+          <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <% } else { %>
+          <svg class="w-5 h-5 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        <% } %>
+        <p class="text-sm font-medium"><%= flash.message %></p>
+        <button onclick="this.closest('#flash-msg').remove()" class="ml-auto text-gray-400 hover:text-gray-600">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <script>setTimeout(() => { const el = document.getElementById('flash-msg'); if (el) el.remove(); }, 5000);</script>
+  <% } %>
+
+  <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-500
+    <%= typeof currentPath !== 'undefined' && currentPath === '/' ? 'bg-transparent' : 'bg-navy-900/95 backdrop-blur-md shadow-lg' %>">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               class="w-9 h-9 text-gold-500 group-hover:text-gold-400 transition-colors">
+            <path d="M10 22v-6.57"/><path d="M12 11h.01"/><path d="M12 7h.01"/>
+            <path d="M14 15.43V22"/><path d="M15 16a5 5 0 0 0-6 0"/>
+            <path d="M16 11h.01"/><path d="M16 7h.01"/><path d="M8 11h.01"/><path d="M8 7h.01"/>
+            <rect x="4" y="2" width="16" height="20" rx="2"/>
+          </svg>
+          <span class="text-2xl font-serif font-bold text-white tracking-wide">Oceanis</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8">
+          <a href="/" class="text-sm font-medium text-white/80 hover:text-gold-400 transition-colors tracking-wide uppercase">Home</a>
+          <a href="/rooms" class="text-sm font-medium text-white/80 hover:text-gold-400 transition-colors tracking-wide uppercase">Rooms</a>
+          <a href="/about" class="text-sm font-medium text-white/80 hover:text-gold-400 transition-colors tracking-wide uppercase">About</a>
+          <a href="/contact" class="text-sm font-medium text-white/80 hover:text-gold-400 transition-colors tracking-wide uppercase">Contact</a>
+          <% if (typeof user !== 'undefined' && user) { %>
+            <% if (user.role === 'admin') { %>
+              <a href="/admin" class="text-sm font-medium text-gold-400 hover:text-gold-300 transition-colors tracking-wide uppercase">Admin</a>
+            <% } %>
+            <a href="/auth/logout" class="ml-2 px-6 py-2.5 bg-gold-500 hover:bg-gold-600 text-navy-900 text-sm font-semibold rounded transition-all duration-300 tracking-wide">Logout</a>
+          <% } else { %>
+            <a href="/auth/login" class="text-sm font-medium text-white/80 hover:text-gold-400 transition-colors tracking-wide uppercase">Login</a>
+            <a href="/rooms" class="ml-2 px-6 py-2.5 bg-gold-500 hover:bg-gold-600 text-navy-900 text-sm font-semibold rounded transition-all duration-300 tracking-wide">Book Now</a>
+          <% } %>
+        </div>
+
+        <button id="mobile-toggle" class="md:hidden text-white p-2">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden bg-navy-900/95 backdrop-blur-md border-t border-white/10">
+      <div class="px-4 py-4 space-y-3">
+        <a href="/" class="block text-sm text-white/80 hover:text-gold-400 py-2 uppercase tracking-wide">Home</a>
+        <a href="/rooms" class="block text-sm text-white/80 hover:text-gold-400 py-2 uppercase tracking-wide">Rooms</a>
+        <a href="/about" class="block text-sm text-white/80 hover:text-gold-400 py-2 uppercase tracking-wide">About</a>
+        <a href="/contact" class="block text-sm text-white/80 hover:text-gold-400 py-2 uppercase tracking-wide">Contact</a>
+        <% if (typeof user !== 'undefined' && user) { %>
+          <% if (user.role === 'admin') { %>
+            <a href="/admin" class="block text-sm text-gold-400 py-2 uppercase tracking-wide">Admin</a>
+          <% } %>
+          <a href="/auth/logout" class="block text-sm text-white/80 hover:text-gold-400 py-2 uppercase tracking-wide">Logout</a>
+        <% } else { %>
+          <a href="/auth/login" class="block text-sm text-white/80 hover:text-gold-400 py-2 uppercase tracking-wide">Login</a>
+          <a href="/rooms" class="block w-full text-center px-6 py-2.5 bg-gold-500 text-navy-900 text-sm font-semibold rounded">Book Now</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <main>
