@@ -3,7 +3,10 @@ const User = require('../models/User');
 const { isGuest, isLoggedIn } = require('../middleware/auth');
 
 router.get('/login', isGuest, (req, res) => {
-  res.render('login', { title: 'Login - Oceanis' });
+  res.render('login', {
+    title: 'Login - Oceanis Hotel | Access Your Account',
+    metaDesc: 'Log in to your Oceanis Hotel account to manage bookings, view reservation history, and access exclusive offers.'
+  });
 });
 
 router.post('/login', isGuest, async (req, res) => {
@@ -31,7 +34,10 @@ router.post('/login', isGuest, async (req, res) => {
 });
 
 router.get('/register', isGuest, (req, res) => {
-  res.render('register', { title: 'Register - Oceanis' });
+  res.render('register', {
+    title: 'Create Account - Oceanis Hotel | Join Today',
+    metaDesc: 'Create your Oceanis Hotel account for faster bookings, exclusive offers, and personalized service in Douala, Cameroon.'
+  });
 });
 
 router.post('/register', isGuest, async (req, res) => {

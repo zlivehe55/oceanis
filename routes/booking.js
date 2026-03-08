@@ -53,7 +53,8 @@ router.get('/:id/confirmation', async (req, res) => {
       return res.redirect('/');
     }
     res.render('booking-confirmation', {
-      title: 'Booking Confirmed - Oceanis',
+      title: 'Booking Confirmed - Oceanis Hotel Douala',
+      metaDesc: 'Your reservation at Oceanis Hotel is confirmed. View your booking details and prepare for a luxurious stay in Douala, Cameroon.',
       booking
     });
   } catch (err) {
