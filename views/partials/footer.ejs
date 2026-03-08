@@ -123,5 +123,72 @@
       }
     })();
   </script>
+
+  <!-- Google Translate -->
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,fr',
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+
+    function switchLang(lang) {
+      var sel = document.querySelector('.goog-te-combo');
+      if (sel) {
+        sel.value = lang === 'en' ? 'en' : 'fr';
+        sel.dispatchEvent(new Event('change'));
+      } else if (lang === 'en') {
+        // Reset to original by removing the googtrans cookie
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + location.hostname;
+        if (window.location.href.indexOf('#googtrans') > -1) {
+          window.location.href = window.location.href.split('#')[0];
+        } else {
+          location.reload();
+        }
+        return;
+      }
+
+      // Update button styles (desktop)
+      var enBtn = document.getElementById('lang-en');
+      var frBtn = document.getElementById('lang-fr');
+      var enBtnM = document.getElementById('lang-en-m');
+      var frBtnM = document.getElementById('lang-fr-m');
+
+      if (lang === 'fr') {
+        if (enBtn) { enBtn.className = 'lang-btn px-2.5 py-1 rounded-full text-xs font-semibold transition-all duration-200 text-white/60 hover:text-white'; enBtn.style.background = 'transparent'; }
+        if (frBtn) { frBtn.className = 'lang-btn px-2.5 py-1 rounded-full text-xs font-semibold transition-all duration-200 text-navy-900'; frBtn.style.background = '#d4982a'; }
+        if (enBtnM) { enBtnM.className = 'lang-btn-m px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 text-white/60 hover:text-white'; enBtnM.style.background = 'transparent'; }
+        if (frBtnM) { frBtnM.className = 'lang-btn-m px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 text-navy-900'; frBtnM.style.background = '#d4982a'; }
+      } else {
+        if (enBtn) { enBtn.className = 'lang-btn px-2.5 py-1 rounded-full text-xs font-semibold transition-all duration-200 text-navy-900'; enBtn.style.background = '#d4982a'; }
+        if (frBtn) { frBtn.className = 'lang-btn px-2.5 py-1 rounded-full text-xs font-semibold transition-all duration-200 text-white/60 hover:text-white'; frBtn.style.background = 'transparent'; }
+        if (enBtnM) { enBtnM.className = 'lang-btn-m px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 text-navy-900'; enBtnM.style.background = '#d4982a'; }
+        if (frBtnM) { frBtnM.className = 'lang-btn-m px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 text-white/60 hover:text-white'; frBtnM.style.background = 'transparent'; }
+      }
+
+      localStorage.setItem('oceanis-lang', lang);
+    }
+
+    // Restore saved language on load
+    (function() {
+      var saved = localStorage.getItem('oceanis-lang');
+      if (saved === 'fr') {
+        var check = setInterval(function() {
+          var sel = document.querySelector('.goog-te-combo');
+          if (sel) {
+            clearInterval(check);
+            sel.value = 'fr';
+            sel.dispatchEvent(new Event('change'));
+            switchLang('fr');
+          }
+        }, 500);
+        setTimeout(function() { clearInterval(check); }, 10000);
+      }
+    })();
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
